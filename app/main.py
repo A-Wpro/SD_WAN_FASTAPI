@@ -46,7 +46,7 @@ mycursor = mydb.cursor()
 sql = "INSERT INTO Graph_Onos (address) VALUES (%s, %s)"
 val = ("John", "Highway 21")
 mycursor.execute(sql, val)
-"""
+
 
 
 # mydb.commit()
@@ -67,7 +67,7 @@ def insertBLOB(photo):
                                              database = "SD_Wan")
 
         cursor = connection.cursor()
-        sql_insert_blob_query = """INSERT INTO Graph_Onos (Graph) VALUES (%s)"""
+        sql_insert_blob_query = ""INSERT INTO Graph_Onos (Graph) VALUES (%s)""
 
         empPicture = convertToBinaryData(photo)
         # empPicture = photo
@@ -109,7 +109,7 @@ def readBLOB(id, photo):
                                              database = "SD_Wan")
 
         cursor = connection.cursor()
-        sql_fetch_blob_query = """SELECT * from Graph_Onos where Num_Graph = %s"""
+        sql_fetch_blob_query = ""SELECT * from Graph_Onos where Num_Graph = %s""
         print(sql_fetch_blob_query)
         cursor.execute(sql_fetch_blob_query, (id,))
         record = cursor.fetchall()
@@ -128,3 +128,4 @@ def readBLOB(id, photo):
             print("MySQL connection is closed")
 
 readBLOB(5, "/Users/tomwilliams/OneDrive - ESME/Esme_inge_3/Majeur_IA/SD_WAN/minion.jpg")
+"""
