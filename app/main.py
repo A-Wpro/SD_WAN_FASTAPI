@@ -36,10 +36,10 @@ def Docu():
 
 
 
-"""
- TODO : first enter redirected page into which we will first check the last id of graphs
-  to then create graph to then insert the id of the graph to the use
-"""
+
+#TODO : first enter redirected page into which we will first check the last id of graphs
+#  to then create graph to then insert the id of the graph to the use
+
 @app.get("/GenerateOnosStruc")
 def GenerateOnosStruc():
 
