@@ -1,15 +1,15 @@
 import fastapi
-import mysql.connector
+# import mysql.connector
 
 
-mydb = mysql.connector.connect(
-  host="127.0.0.1",
-  user="root",
-  password="molomo2404",
-    database = "SD_Wan"
-)
-
-print(mydb)
+# mydb = mysql.connector.connect(
+#   host="127.0.0.1",
+#   user="root",
+#   password="molomo2404",
+#     database = "SD_Wan"
+# )
+#
+# print(mydb)
 
 from fastapi import FastAPI
 from fastapi.requests import Request
