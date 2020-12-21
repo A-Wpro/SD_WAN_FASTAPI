@@ -40,6 +40,9 @@ def GenerateOnosStruc():
     print(test)
     return {"message": "World" + test}
 
+
+
+# PARTIE MYSQL a completer plus tard
 """
 mycursor = mydb.cursor()
 
