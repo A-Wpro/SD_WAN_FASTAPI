@@ -25,7 +25,7 @@ def actions_RL():
 
 test = actions_RL()
 app = FastAPI()
-file = codecs.open("Index.html", "r")
+file = codecs.open("Web/Index.html", "r")
 
 
 @app.get("/", response_class=HTMLResponse)
