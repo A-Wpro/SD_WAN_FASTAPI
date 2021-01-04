@@ -5,4 +5,4 @@ COPY ./app /app
 RUN pip install networkx &&\ 
 pip install pulp &&\
 pip install ortools &&\
-pip install mysql
+pip install mysql-connector-python
