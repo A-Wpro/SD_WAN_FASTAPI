@@ -59,7 +59,7 @@
         <div class="flex-container">
 
             <div class="flex-item-left">
-                <button>
+                <button onclick="window.location.href='/'">
                     <h1>
                         Deploy Onos
                     </h1>
@@ -90,12 +90,13 @@
         <div class="RESULTS">
             <div class="flex-item-center">
 
-                <!-- essayer d'inserer la commande mysql ici -->
+                <!-- essayer d inserer la commande mysql ici -->
                 <h1 id="GET_GR_ID">
 
                 <?php
                     echo "Jello";
                 ?>
+                
 
                 </h1>
                 
@@ -106,10 +107,8 @@
 
 <!-- TODO : create script that changed the value of h1 to a sentence with id of graph -->
         <script>
-            var id_insert = document.getElementById("GET_GR_ID");
-            const urlParams = new URLSearchParams(queryString);
-
-            id_insert.innerHTML = urlParams;
+            
+            document.getElementById("GET_GR_ID").innerHTML = "Hello JavaScript!";
         </script>
 
 
