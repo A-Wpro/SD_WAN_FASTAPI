@@ -90,12 +90,12 @@
                 <!-- essayer d'inserer la commande mysql ici -->
                 <h1 id="GET_GR_ID">
 
-
-
-                </h1>
                 <?php
                     echo "Jello";
                 ?>
+
+                </h1>
+                
                 
             </div>
 
