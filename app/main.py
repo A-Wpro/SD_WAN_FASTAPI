@@ -20,7 +20,7 @@ app = FastAPI()
 @app.get("/" , response_class=HTMLResponse)
 def Docu():
     docuStr = "Voici la liste des features : GenerateOnosStruc(Param1: int, Param2: int, Param3: int, Param4: int) that generate Onos struc"
-    file = codecs.open("Web/Index.html", "r")
+    file = codecs.open("Web/index.php", "r")
 
     return file.read()
 
@@ -37,7 +37,7 @@ def GenerateOnosStruc():
     return response
 @app.get("/{id}", response_class=HTMLResponse)
 def Docu():
-    file = codecs.open("Web/Index.html", "r")
+    file = codecs.open("Web/index.php", "r")
 
     return file.read()
 
