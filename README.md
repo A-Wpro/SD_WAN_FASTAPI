@@ -20,7 +20,7 @@ docker
 
 ## Installation
 
-docker : https://docs.docker.com/docker-for-windows/install/
+docker : https://docs.docker.com/engine/install/ubuntu/
 
 1. Clone le repo
    ```sh
