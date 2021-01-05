@@ -44,12 +44,28 @@ docker : https://docs.docker.com/engine/install/ubuntu/
 
 #### Probléme récurrent
    Verifier que le port 80 soit libre, le docker pourrais ne  pas se lancer
+   Pour verifier le lancement de l'API  : 
+   ```
+   docker logs sdwanapicontainer 
+   ```
+   si il y a un "FILE ERROR" ou similaire voici les commandes pour relancer le docker 
+   ```
+   docker kill $(docker ps -q)
+   ```
+   ```
+   docker rm $(docker ps -a -q)
+   ```
+   puis retourner à l'étape 3 après corrections 
+   
+   lien vers la docu fastAPI docker
+   https://github.com/tiangolo/uvicorn-gunicorn-fastapi-docker
 
 ## Demarrage sur l'API
 
-But : Mettre a disposition de une ou plusieurs features du projet SD WAN
-
-sur le "/" on peux trouver les differentes features et leurs docus
+3 boutons : 
+Deploy ONOS (wip)
+Deploy RL : affiches le chemin le + cours ( et bientôt l'image du reseau) en 2 points choisit à l'avance : return JSON ou RAW
+DOCS : lien vers le docs fastAPI du projet
 
 #### Pour le dévelopement 
 Voici la ligne de commande qui permet de déveloper des features et d'auto reload pour ne pas avoir à relancer le contenaire à chaque changement des fichiers
@@ -58,10 +74,10 @@ docker run -d --name sdwanapicontainer -p 80:80 sdwanapi /start-reload.sh
 ```
 
 ### Versions
-0.04
+0.12
 
 ### Auteurs
 
-A-Wpro, tompa97, thomas tranchet
+A-Wpro, tompa97, Thomas92330
 
 
