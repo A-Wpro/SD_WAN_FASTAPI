@@ -1,3 +1,4 @@
+from app.TESTS.networkx_exercise import image_nertworkx
 import fastapi
 
 
@@ -7,7 +8,7 @@ from fastapi.responses import HTMLResponse,RedirectResponse,ORJSONResponse,JSONR
 from typing import Optional
 import codecs
 import os
-
+from TESTS.networkx_exercise import image_nertworkx
 
 def actions_RL():
     return "hello"
@@ -20,8 +21,8 @@ app = FastAPI()
 @app.get("/" , response_class=HTMLResponse)
 def Docu():
     docuStr = "Voici la liste des features : GenerateOnosStruc(Param1: int, Param2: int, Param3: int, Param4: int) that generate Onos struc"
-    file = codecs.open("Web/index.php", "r")
-
+    file = codecs.open("Web/Index.php", "r")
+    image_nertworkx()
     return file.read()
 
 
@@ -37,7 +38,7 @@ def GenerateOnosStruc():
     return response
 @app.get("/{id}", response_class=HTMLResponse)
 def Docu():
-    file = codecs.open("Web/index.php", "r")
+    file = codecs.open("Web/Index.php", "r")
 
     return file.read()
 
