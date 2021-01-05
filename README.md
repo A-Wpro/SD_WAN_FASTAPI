@@ -63,9 +63,12 @@ docker : https://docs.docker.com/engine/install/ubuntu/
 ## Demarrage sur l'API
 
 3 boutons : 
-Deploy ONOS (wip)
-Deploy RL : affiches le chemin le + cours ( et bientôt l'image du reseau) en 2 points choisit à l'avance : return JSON ou RAW
-DOCS : lien vers le docs fastAPI du projet
+
+-Deploy ONOS (wip) : prochaine feature 
+
+-Deploy RL : affiches le chemin le + cours ( et bientôt l'image du reseau) en 2 points choisit à l'avance : return JSON ou RAW
+
+-DOCS : lien vers le docs fastAPI du projet
 
 #### Pour le dévelopement 
 Voici la ligne de commande qui permet de déveloper des features et d'auto reload pour ne pas avoir à relancer le contenaire à chaque changement des fichiers
