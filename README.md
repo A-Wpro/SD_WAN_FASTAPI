@@ -26,7 +26,7 @@ docker : https://docs.docker.com/engine/install/ubuntu/
    ```
 2.
    ```sh
-   cd SD_WAN_FASTAP
+   cd SD_WAN_FASTAPI
    ```
 
 3.
