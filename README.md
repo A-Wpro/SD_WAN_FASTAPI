@@ -41,9 +41,11 @@ docker : https://docs.docker.com/docker-for-windows/install/
    docker run -d --name sdwanapicontainer -p 80:80 sdwanapi
    ```
 
-5.  aller sur http://127.0.0.1:8000/
- ou sur http://127.0.0.1:8000/docs
+5.  aller sur http://127.0.0.1:80/
+ ou sur http://127.0.0.1:80/docs
 
+#### Probléme récurrent
+   Verifier que le port 80 soit libre, le docker pourrais ne  pas se lancer
 
 ## Demarrage sur l'API
 
