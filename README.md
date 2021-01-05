@@ -41,8 +41,7 @@ docker : https://docs.docker.com/docker-for-windows/install/
    docker run -d --name sdwanapicontainer -p 80:80 sdwanapi
    ```
 
-5. 
- aller sur http://127.0.0.1:8000/
+5.  aller sur http://127.0.0.1:8000/
  ou sur http://127.0.0.1:8000/docs
 
 
