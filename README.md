@@ -11,7 +11,8 @@ chercher d'autre features
 
 Pre-requis
 
-docker : https://docs.docker.com/docker-for-windows/install/
+Ubuntu
+docker
 
 
 
@@ -38,7 +39,7 @@ sur le "/" on peux trouver les differentes features et leurs docus
 
 
 ### Versions
-0.02
+0.03
 
 ### Auteurs
 
