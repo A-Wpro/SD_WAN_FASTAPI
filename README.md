@@ -22,12 +22,17 @@ docker
 
 docker : https://docs.docker.com/docker-for-windows/install/
 
-Lancer une console 
-docker build -t sdwanapi .
+1. Clone le repo
+   ```sh
+   git clone https://github.com/A-Wpro/SD_WAN_FASTAPI.git
+   ```
+2.```cd SD_WAN_FASTAPI```
 
-docker run -d --name sdwanapicontainer -p 80:80 sdwanapi
+3.```docker build -t sdwanapi .```
 
- 
+4.```docker run -d --name sdwanapicontainer -p 80:80 sdwanapi```
+
+5. 
  aller sur http://127.0.0.1:8000/
  ou sur http://127.0.0.1:8000/docs
 
