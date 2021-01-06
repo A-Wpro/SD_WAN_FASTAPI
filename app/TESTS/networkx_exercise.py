@@ -15,7 +15,6 @@ import networkx as nx
 import pulp
 import random
 import matplotlib.pyplot as plt
-<<<<<<< HEAD
 # import cvxpy as cp
 import numpy as np
 import io
@@ -121,8 +120,7 @@ for link in g.edges:
 #Essai avec CVXPY
 =======
 """# Essai avec CVXPY
->>>>>>> 82e888494ecb0ecf8795e73716d539d66f658aa8
-
+"""
 objective = cp.Minimize()
 
 """
