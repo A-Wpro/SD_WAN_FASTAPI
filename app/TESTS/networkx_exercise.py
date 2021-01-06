@@ -24,7 +24,7 @@ import io
 def image_nertworkx():
     g = nx.to_directed(nx.barabasi_albert_graph(20, 2))
     nx.draw(g, with_labels=True)
-    plt.savefig("test")
+    plt.savefig("Web/test.jpg")
     plt.show()
     source = 0
     target = 19
