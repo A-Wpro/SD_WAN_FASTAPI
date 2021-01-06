@@ -1,4 +1,3 @@
-import fastapi
 import mysql.connector
 
 
@@ -11,42 +10,15 @@ mydb = mysql.connector.connect(
 
 print(mydb)
 
-from fastapi import FastAPI
-from fastapi.requests import Request
-from fastapi.responses import HTMLResponse
-from typing import Optional
-import codecs
-import os
 
+# PARTIE MYSQL a completer plus tard
 
-def actions_RL():
-    return "hello"
-
-
-test = actions_RL()
-app = FastAPI()
-file = codecs.open("Index.html", "r")
-
-
-@app.get("/", response_class=HTMLResponse)
-def Docu():
-    docuStr = "Voici la liste des features : GenerateOnosStruc(Param1: int, Param2: int, Param3: int, Param4: int) that generate Onos struc"
-
-    return file.read()
-
-
-@app.get("/GenerateOnosStruc")
-def GenerateOnosStruc():
-    print(test)
-    return {"message": "World" + test}
-
-"""
 mycursor = mydb.cursor()
 
 sql = "INSERT INTO Graph_Onos (address) VALUES (%s, %s)"
 val = ("John", "Highway 21")
 mycursor.execute(sql, val)
-"""
+
 
 
 # mydb.commit()
@@ -67,7 +39,7 @@ def insertBLOB(photo):
                                              database = "SD_Wan")
 
         cursor = connection.cursor()
-        sql_insert_blob_query = """INSERT INTO Graph_Onos (Graph) VALUES (%s)"""
+        sql_insert_blob_query = """"INSERT INTO Graph_Onos (Graph) VALUES (%s)"""
 
         empPicture = convertToBinaryData(photo)
         # empPicture = photo
@@ -109,7 +81,7 @@ def readBLOB(id, photo):
                                              database = "SD_Wan")
 
         cursor = connection.cursor()
-        sql_fetch_blob_query = """SELECT * from Graph_Onos where Num_Graph = %s"""
+        sql_fetch_blob_query = """"SELECT * from Graph_Onos where Num_Graph = %s"""
         print(sql_fetch_blob_query)
         cursor.execute(sql_fetch_blob_query, (id,))
         record = cursor.fetchall()
