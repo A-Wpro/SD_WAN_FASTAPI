@@ -9,6 +9,8 @@ from fastapi.responses import FileResponse
 from typing import Optional
 import codecs
 import os
+from io import BytesIO
+import glob
 from TESTS.networkx_exercise import image_nertworkx
 # from app.TESTS.networkx_exercise import image_nertworkx
 def actions_RL():
@@ -22,6 +24,7 @@ app = FastAPI()
 @app.get("/" , response_class=HTMLResponse)
 def Docu():
     docuStr = "Voici la liste des features : GenerateOnosStruc(Param1: int, Param2: int, Param3: int, Param4: int) that generate Onos struc"
+    
     file = codecs.open("Web/Index.html", "r")
     
     return file.read()
@@ -38,6 +41,12 @@ def GenerateOnosStruc():
     response = RedirectResponse(url='/?image=true')
     image_nertworkx()
     return response
-@app.get("/{image}", response_class=HTMLResponse)
+
+
+@app.get("/{ismage}")
 async def main():
-    return FileResponse("Web/test.jpg")
+    return FileResponse("Web/test.png")
+async def nomain():
+    file = codecs.open("Web/Index.html", "r")
+    
+    return file.read()

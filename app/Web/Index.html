@@ -2,9 +2,11 @@
 <html>
     <head>
         <meta charset = "UTF-8" />
-        <script type="text/javascript">
-
-        </script>
+        <!-- la balise de ce script nous permettra d'afficher l'image lorsque : 
+                - il est diponible
+                - il est demandé par l'utilisateur ( appuyer sur le bouton Deploy Onos) 
+            -->
+            
     <style>
         #TITLE {
             text-align: center;
@@ -58,6 +60,11 @@
 
 
     <body>
+        <button onclick="window.location.href='/'">
+            <h1>
+                Reload the load
+            </h1>
+        </button>
         <h1 id="TITLE">
             PROJET_SD_WAN
         </h1>
@@ -65,7 +72,7 @@
         <div class="flex-container">
 
             <div class="flex-item-left">
-                <button>
+                <button onclick="window.location.href='/GenerateOnosStruc'">
                     <h1>
                         Deploy Onos
                     </h1>
@@ -74,7 +81,7 @@
             </div>
 
             <div class="flex-item-center">
-                <button onclick="window.location.href='/GenerateOnosStruc'">
+                <button>
                 <h1 class="ONOS">
                     Deploy RL
                 </h1>
@@ -113,8 +120,40 @@
                         <!-- essayer d inserer l'image ici -->
 
         <p id="image_container">
-            
-            <img src="http://localhost/test.jpg" alt="Simply Easy Learning" width="200" height="200"/>
+            <script>
+
+                
+
+                var urlParams = new URLSearchParams(window.location.search);
+                var onos_image_url = "http://localhost/test.png";
+                var image_balise =  '<img src="http://localhost/test.png" alt="Simply Easy Learning" width="200" height="200"/>';
+
+                var http = new XMLHttpRequest();
+                http.open('HEAD', onos_image_url, false);
+                http.send();
+                if (urlParams.has('image') || urlParams.get('image' === 'true') || http.status===200){
+
+                    console.log("image is available");
+                    //var image = document.getElementById("image_container");
+                    var img = document.createElement("img");
+                    img.src = onos_image_url;
+                    var src = document.getElementById("image_container");
+                    src.appendChild(img);
+
+                    //image_container.innerHTML = image_balise;
+
+                }
+                else {
+                    console.log("Image is not available");
+                    console.log(urlParams.has('image'));
+                    console.log(urlParams.get('image' == 'true'));
+                    console.log(http.status===200);
+                    image_container.innerHTML = "Image is not available"
+                }
+
+
+            </script>
+            <!-- <img src="http://localhost/test.png" alt="Simply Easy Learning" width="200" height="200"/> -->
 
         </p>
 
