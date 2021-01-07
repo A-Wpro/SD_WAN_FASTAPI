@@ -118,48 +118,59 @@
         </div>
 
                         <!-- essayer d inserer l'image ici -->
+        <div class="flex-container">
+            <div class="flex-item-left">
+                <p id="image_container">
+                    
+                    <!-- <img src="http://localhost/test.png" alt="Simply Easy Learning" width="200" height="200"/> -->
 
-        <p id="image_container">
-            <script>
+                </p>
+            </div>
 
-                
+        <div class="flex-item-right" id="RL_Form">
 
-                var urlParams = new URLSearchParams(window.location.search);
-                var onos_image_url = "http://localhost/test.png";
-                var image_balise =  '<img src="http://localhost/test.png" alt="Simply Easy Learning" width="200" height="200"/>';
+            
 
-                var http = new XMLHttpRequest();
-                http.open('HEAD', onos_image_url, false);
-                http.send();
-                if (urlParams.has('image') || urlParams.get('image' === 'true') || http.status===200){
-
-                    console.log("image is available");
-                    //var image = document.getElementById("image_container");
-                    var img = document.createElement("img");
-                    img.src = onos_image_url;
-                    var src = document.getElementById("image_container");
-                    src.appendChild(img);
-
-                    //image_container.innerHTML = image_balise;
-
-                }
-                else {
-                    console.log("Image is not available");
-                    console.log(urlParams.has('image'));
-                    console.log(urlParams.get('image' == 'true'));
-                    console.log(http.status===200);
-                    image_container.innerHTML = "Image is not available"
-                }
-
-
-            </script>
-            <!-- <img src="http://localhost/test.png" alt="Simply Easy Learning" width="200" height="200"/> -->
-
-        </p>
+        </div>
 
         
 
-
+    </div>
     </body>
+    <script>
 
+                        
+
+        var urlParams = new URLSearchParams(window.location.search);
+        var onos_image_url = "http://localhost/test.png";
+        var image_balise =  '<img src="http://localhost/test.png" alt="Simply Easy Learning" width="200" height="200"/>';
+
+        var http = new XMLHttpRequest();
+        http.open('HEAD', onos_image_url, false);
+        http.send();
+        if (urlParams.has('image') || urlParams.get('image' === 'true') || http.status===200){
+
+            console.log("image is available");
+            //var image = document.getElementById("image_container");
+            var img = document.createElement("img");
+            img.src = onos_image_url;
+            var src = document.getElementById("image_container");
+            src.appendChild(img);
+
+            //image_container.innerHTML = image_balise;
+
+            //var deploy_rl = document.getElementById('RL_Form');
+            document.getElementById('RL_Form').innerHTML += '<form action="/deployRL"><div><input type="submit" value="Deploy RL" class="ONOS" class="flex-item-left"></div></p><input type="number" id="src" name="src" min="0" max="20"><input type="number" id="trg" name="trg" min="0" max="20"></form>';
+
+        }
+        else {
+            console.log("Image is not available");
+            console.log(urlParams.has('image'));
+            console.log(urlParams.get('image' == 'true'));
+            console.log(http.status===200);
+            image_container.innerHTML = "Image is not available"
+        }
+
+
+    </script>
 </html>
