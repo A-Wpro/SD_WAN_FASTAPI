@@ -12,6 +12,8 @@ import os
 from io import BytesIO
 import glob
 from TESTS.networkx_exercise import image_nertworkx
+from TESTS.min_cost import min_cost
+
 # from app.TESTS.networkx_exercise import image_nertworkx
 def actions_RL():
     return "hello"
@@ -19,7 +21,6 @@ def actions_RL():
 
 test = actions_RL()
 app = FastAPI()
-
 
 @app.get("/" , response_class=HTMLResponse)
 def Docu():
@@ -36,10 +37,12 @@ def Docu():
 #  to then create graph to then insert the id of the graph to the use
 
 @app.get("/GenerateOnosStruc")
-def GenerateOnosStruc():
+async def GenerateOnosStruc():
 
     response = RedirectResponse(url='/?image=true')
-    image_nertworkx()
+    global g
+    g = image_nertworkx()
+
     return response
 
 
@@ -53,3 +56,13 @@ async def nomain():
     file = codecs.open("Web/Index.html", "r")
     
     return file.read()
+
+
+"""TODO : lorsque l'utilisateur appuie sur le bouton 'Deploy RL' : 
+    - faire transmettre g qui a ete appelle avec le bouton 'Deploy Onos'
+    - appeller la fonction min cost qui resolvera le probleme
+    - faire apparaitre les resultats
+"""
+@app.get("/deployRL")
+async def deployRL(src: int = 0, trg: int = 10):
+    return min_cost(0,10)

@@ -72,32 +72,37 @@
         <div class="flex-container">
 
             <div class="flex-item-left">
-                <button onclick="window.location.href='/GenerateOnosStruc'">
+                <button>
                     <h1>
-                        Deploy Onos
+                        Deploy Onos (WIP)
                     </h1>
 
                 </button>
             </div>
 
             <div class="flex-item-center">
-                <button>
-                <h1 class="ONOS">
-                    Deploy RL
-                </h1>
-                </button>
+                <form action="/deployRL">
+                <div>
+                <input type="submit" value="Deploy RL" class="ONOS" class="flex-item-left"">
+                </div>
+                </p>
+                <input type="number" id="src" name="src" min="0" max="20">
+                <input type="number" id="trg" name="trg" min="0" max="20">
+                
+            </form>
             </div>
 
             <div class="flex-item-right">
             <button>
-                <h1 class="ONOS">
-                    Summary
+                <h1 href="/docs#/" class="ONOS">
+                    DOCS
                 </h1>
             </button>
             </div>
 
 
         </div>
+
 
 
         <div class="RESULTS">
