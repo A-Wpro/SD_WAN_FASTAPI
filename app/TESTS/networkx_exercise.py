@@ -15,7 +15,6 @@ import networkx as nx
 import pulp
 import random
 import matplotlib.pyplot as plt
-import cvxpy as cp
 import numpy as np
 import io
 from PIL import Image
@@ -94,12 +93,6 @@ print("The shortest path is ")
 for link in g.edges:
     if var_dict[link].value() == 1.0:
         print(link, end=" ")
-
-
-
-"""# Essai avec CVXPY"""
-
-objective = cp.Minimize()
 
 
 
