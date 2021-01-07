@@ -15,18 +15,23 @@ import networkx as nx
 import pulp
 import random
 import matplotlib.pyplot as plt
-import cvxpy as cp
+# import cvxpy as cp
 import numpy as np
 import io
-from PIL import Image
+# from PIL import Image
 
-g = nx.to_directed(nx.barabasi_albert_graph(20, 2))
-nx.draw(g, with_labels=True)
-plt.savefig("test")
-plt.show()
-source = 0
-target = 19
 
+def image_nertworkx():
+    g = nx.to_directed(nx.barabasi_albert_graph(20, 2))
+    nx.draw(g, with_labels=True)
+    plt.savefig("Web/test.png")
+    plt.show()
+    plt.close()
+    source = 0
+    target = 19
+
+
+"""
 # dict des capacites
 dict_d = {}
 for i, j in g.edges:
@@ -97,7 +102,7 @@ for link in g.edges:
 
 
 
-"""# Essai avec CVXPY
+#Essai avec CVXPY
 
 objective = cp.Minimize()
 
