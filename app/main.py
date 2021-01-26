@@ -20,32 +20,22 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 db = []
 path = []
 
-
+# Read index.html file which will be the first page to appear
 @app.get('/', response_class=HTMLResponse)
 async def index():
+    # find file in static
     file = codecs.open("static/index.html", "r")
+    # make the page appear as the response class is HTMLResponse
     return file.read()
 
-@app.get('/graph')
-async def get_graph():
-    return db
 
-@app.get("/vector_image")
-def image_endpoint():
-    file_like = open("images/original.jpg", mode="rb")
-    return StreamingResponse(file_like, media_type="image/jpg")
-
-@app.get("/opti_image")
-def image_endpoint():
-    file_like = open("images/shortest_path.png", mode="rb")
-    return StreamingResponse(file_like, media_type="image/jpg")
-    
+# go to this after the user has chosen to create its graph
 @app.get('/generate/{nodes_edges}', response_class=HTMLResponse)
 def image_nertworkx(nodes:int = 30, edges:int  = 3):
     g = nx.to_directed(nx.barabasi_albert_graph(nodes, edges))
     nx.draw(g, with_labels=True)
     plt.savefig("images/original.jpg")
-
+    plt.close()
     dict_capa = {}
     for i, j in g.edges:
         dict_capa[i, j] = dict_capa[j, i] = round(random.uniform(1.0, 20.0), 0)
@@ -120,6 +110,20 @@ def image_nertworkx(nodes:int = 30, edges:int  = 3):
     return file.read()
 
 
+@app.get('/graph')
+async def get_graph():
+    return db
+
+@app.get("/vector_image")
+def image_endpoint():
+    file_like = open("images/original.jpg", mode="rb")
+    return StreamingResponse(file_like, media_type="image/jpg")
+
+@app.get("/opti_image")
+def image_endpoint():
+    file_like = open("images/opti_image.jpg", mode="rb")
+    return StreamingResponse(file_like, media_type="image/jpg")
+
 @app.get('/generate_path/{source_target}',response_class=HTMLResponse)
 async def opti_path(source:int = 0, target:int  = 10):
     g = nx.Graph(db[0])
@@ -187,11 +191,11 @@ async def opti_path(source:int = 0, target:int  = 10):
                 un_res.append(i) 
 
     print(un_res)
+    print("key : {}".format(key))
     sg = g.subgraph(un_res)
-    plt.close()
     nx.draw(sg, with_labels=True)
-    plt.savefig("images/{}".format(keys))
-    plt.show()
+    plt.savefig("images/opti_image.jpg")
+    plt.close()
 
     if pulp.LpStatus[prob.status] != 'Infeasible'  :
         file = codecs.open("static/path_view.html", "r")
