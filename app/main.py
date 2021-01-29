@@ -1,26 +1,28 @@
 from fastapi import FastAPI 
-from pydantic import BaseModel
-from fastapi.responses import HTMLResponse
-import codecs
-import matplotlib
-matplotlib.use('Agg')
-import matplotlib.pyplot as plt
-import networkx as nx
-import random
-import numpy as np 
-import pulp 
 from fastapi.staticfiles import StaticFiles
-import io
+from fastapi.responses import HTMLResponse
 from starlette.responses import StreamingResponse
 
+import networkx as nx
+import pulp 
+import numpy as np 
+
+import matplotlib
+import matplotlib.pyplot as plt
+
+import codecs
+import random
+import io
+
+matplotlib.use('Agg')
 
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
 db = []
 path = []
-
-# Read index.html file which will be the first page to appear
+##############################################################
+# Read index.html file which which is the home page
 @app.get('/', response_class=HTMLResponse)
 async def index():
     # find file in static
@@ -28,7 +30,7 @@ async def index():
     # make the page appear as the response class is HTMLResponse
     return file.read()
 
-
+#############################################################
 # go to this after the user has chosen to create its graph
 @app.get('/generate/{nodes_edges}', response_class=HTMLResponse)
 def image_nertworkx(nodes:int = 30, edges:int  = 3):
