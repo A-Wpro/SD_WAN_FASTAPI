@@ -59,6 +59,14 @@ L’utilisateur n’a qu’a télécharger le projet GitHub, cree le container p
 
 : Le logiciel Docker est une technologie de conteneurisation qui permet la création et l’utilisation de conteneurs. Un conteneur est une unite de software permettant d’isoler une application d’un OS solvant la problématique du “ca ne marche pas sur mon ordinateur”. Lorsque nous créons une conteneur, une image de conteneur lui est attribue, cette image (contient les dependences, configuration, scripts etc ), lorsqu’elle est lancée, exécute l’applications et données contenues a l’intérieur d’elle meme grace au DockerFile. Le DockerFile est un Text-Based script d’instructions utilisé pour créer l’image du conteneur.
 
+## Ce que l'on a appris
+
+En plus d'un apperçus de l'utiliter des APIs et leurs scalabilités verticales, nous avons appris a faire un choix entre plusieur techno. Car dans le monde de l'entreprise ce genre de choix. Nous avons aussi découvert les Dockers et la puissance que cela peut avoir en terme de micro gestion. De plus le melange des differentes langage de programation a aiguiser notre capacité a assosier les differentes techno. 
+
+## Ce que l'on vas réutiliser 
+
+Nous avons envie de dire que tout les heures passer sur ce projet nous ont appris quelque chose de nous allons utiliser/ Notamment le Docker et la librarie Fast API.
+
 
 ## Pour commencer
 
