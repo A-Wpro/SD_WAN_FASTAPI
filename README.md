@@ -19,14 +19,11 @@ Dans notre pfe, nous utilisons les librairies suivantes :
 Maintenant nous souhaitons intégrer notre projet de fin d’etude dans une API. 
 Notre web app se separe en trois fichiers html : 
 
-**index.html** 
-: page d’accueil dans lequel l’utilisateur choisis le nombre de noeuds et le nombre de connexions entre les noeuds.
+**index.html** : page d’accueil dans lequel l’utilisateur choisis le nombre de noeuds et le nombre de connexions entre les noeuds.
 
-**graph_view.html**
-: page permettant de choisir le chemin que doit traverser le message dans le réseau créé, l’image du réseau créé peut être téléchargé.
+**graph_view.html**: page permettant de choisir le chemin que doit traverser le message dans le réseau créé, l’image du réseau créé peut être téléchargé.
 
-**path_view.html**
- : page permettant de visualiser le chemin que prend le message, l’image du chemin que prend le message peut aussi être téléchargé.
+**path_view.html**: page permettant de visualiser le chemin que prend le message, l’image du chemin que prend le message peut aussi être téléchargé.
 
 Notre API contient ainsi 6 chemins : 
 
