@@ -6,7 +6,7 @@ remplir la GenerateOnosStruc
 
 chercher d'autre features
 
-##Explication du projet
+## Explication du projet
 
 Ce projet consiste à intégrer notre projet de fin d’étude à une api.
 
