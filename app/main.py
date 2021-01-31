@@ -1,60 +1,65 @@
 from fastapi import FastAPI 
-from pydantic import BaseModel
-from fastapi.responses import HTMLResponse
-import codecs
-import matplotlib
-matplotlib.use('Agg')
-import matplotlib.pyplot as plt
-import networkx as nx
-import random
-import numpy as np 
-import pulp 
 from fastapi.staticfiles import StaticFiles
-import io
+from fastapi.responses import HTMLResponse
 from starlette.responses import StreamingResponse
 
+import networkx as nx
+import pulp 
+import numpy as np 
+
+import matplotlib
+import matplotlib.pyplot as plt
+import pandas as pd 
+from collections import defaultdict
+
+import codecs
+import random
+import io
+
+matplotlib.use('Agg')
 
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
-
+node_pose = {}
 db = []
 path = []
-
-
+##############################################################
+# Read index.html file which which is the home page
 @app.get('/', response_class=HTMLResponse)
 async def index():
+    # find file in static
     file = codecs.open("static/index.html", "r")
+    # make the page appear as the response class is HTMLResponse
     return file.read()
 
-@app.get('/graph')
-async def get_graph():
-    return db
-
-@app.get("/vector_image")
-def image_endpoint():
-    file_like = open("images/original.jpg", mode="rb")
-    return StreamingResponse(file_like, media_type="image/jpg")
-
-@app.get("/opti_image")
-def image_endpoint():
-    file_like = open("images/shortest_path.png", mode="rb")
-    return StreamingResponse(file_like, media_type="image/jpg")
-    
+#############################################################
+# go to this after the user has chosen to create its graph
 @app.get('/generate/{nodes_edges}', response_class=HTMLResponse)
 def image_nertworkx(nodes:int = 30, edges:int  = 3):
-    g = nx.to_directed(nx.barabasi_albert_graph(nodes, edges))
-    nx.draw(g, with_labels=True)
-    plt.savefig("images/original.jpg")
+    g = nx.to_directed(nx.fast_gnp_random_graph(nodes,edges/nodes,directed=True))
 
+    for i in g.nodes():
+        node_pose[i] = (random.uniform(1.0, 10.0),random.uniform(1.0, 10.0))
+    
+    nx.draw(g,pos = node_pose, with_labels=True)
+    plt.savefig("images/original.jpg")
+    plt.close()
+    
     dict_capa = {}
     for i, j in g.edges:
         dict_capa[i, j] = dict_capa[j, i] = round(random.uniform(1.0, 20.0), 0)
     
     nx.set_edge_attributes(g, dict_capa, 'capacity')
     
+    color = {}
+    for i, j in g.edges:
+        color[i, j] = color[j, i] = (0,0,0,0.5)
+        
+    nx.set_edge_attributes(g, color, 'color')
+
     dict_used = {}
     for i, j in g.edges:
-        dict_used[i, j] = dict_used[j, i] = min(round(random.uniform(0.0, 15.0), 0),dict_capa[i, j])
+        dict_used[i, j] = dict_used[j, i] = min(round(random.uniform(0.0, 5.0), 0),dict_capa[i, j])
     
     nx.set_edge_attributes(g, dict_used, 'used')
     
@@ -70,47 +75,34 @@ def image_nertworkx(nodes:int = 30, edges:int  = 3):
     
     nx.set_edge_attributes(g, dict_delay, 'delay')
 
-    i,j = zip(*g.edges)
-    unique_i = np.unique(i)
-    list_ratio = []
-    for u_i in unique_i:
-        temp_dict = {}
-        for i, j in g.edges:
-            if u_i==i:
-                temp_dict["i"] = i
-                temp_dict["j"] = j
-                temp_dict["ratio"] = dict_ratio[i,j]
-                list_ratio.append(*zip([list(temp_dict.values())[2]],[list(temp_dict.values())[0]],[list(temp_dict.values())[1]]))
+    big_d = {}
+    small_d = {}
 
-    list_ratio_i = (sorted(list_ratio, key=lambda element: (element[1],element[0])))
-    list_ratio_j = (sorted(list_ratio, key=lambda element: (element[2],element[0])))
+    for link in g.edges:
+        small_d = {}
+        small_d['Source'] = link[0]
+        small_d['Ratio'] = g.edges[link]['ratio']
+    
+        big_d[str(link)] = small_d
+    temp = pd.DataFrame.from_dict(big_d,orient='index')
 
-    dict_score = {}
-    score = 1
-    prev_ratio = -1
-    prev_i = 0
-    for ratio,i,j in list_ratio_i:
-        if ratio != prev_ratio:
-            score += 1
-        prev_ratio = ratio
-        if (prev_i != i):
-            score = 0
-            prev_i = i
-        dict_score[i, j] = score
+    temp = temp.sort_values(by=['Source','Ratio'])
 
-    score = 1
-    prev_ratio = -1
-    prev_j = 0
-    for ratio,i,j in list_ratio_j:
-        if ratio != prev_ratio:
-            score += 1
-        prev_ratio = ratio
-        if (prev_j != j):
-            score = 0
-            prev_j = j
-        dict_score[j, i] = score
+    for i in temp.Source.unique():
+        cpt=0
+        for j in temp[temp['Source'] == i].index:
+            cpt+=1
+            temp.at[str(j),'Score'] = cpt
+    for link in g.edges:
+        g.edges[link]['score'] = temp.at[str(link),'Score'] 
 
-    nx.set_edge_attributes(g, dict_score, 'score')
+    for link in g.edges:
+        if g.edges[link]['score'] != temp.at[str(link),'Score'] :
+            g.edges[link]['score'] = temp.at[str(link),'Score'] 
+
+    for link in g.edges:
+        if g.edges[link]['score'] != temp.at[str(link),'Score'] :
+                g.edges[link]['score'] = temp.at[str(link),'Score'] 
 
     if len(db) > 0 :
         db.pop(0)
@@ -120,15 +112,34 @@ def image_nertworkx(nodes:int = 30, edges:int  = 3):
     return file.read()
 
 
+@app.get('/graph')
+async def get_graph():
+    return db
+
+@app.get("/vector_image")
+def image_endpoint():
+    file_like = open("images/original.jpg", mode="rb")
+    return StreamingResponse(file_like, media_type="image/jpg")
+
+@app.get("/opti_image/{image_name}")
+def image_endpoint(image_name:str = "shortest_path"):
+    print(image_name)
+    file_name = "images/%s.jpg" % image_name
+    print(file_name)
+    file_like = open(file_name, mode="rb")
+    return StreamingResponse(file_like, media_type="image/jpg")
+
 @app.get('/generate_path/{source_target}',response_class=HTMLResponse)
 async def opti_path(source:int = 0, target:int  = 10):
     g = nx.Graph(db[0])
-    list_keys = ['shortest_path','min_delay','min_banwidth_sum','min_banwidth_square_sum','min_score'] #,'min_square_score'
+    list_keys = ['shortest_path','min_delay','min_banwidth_sum','min_banwidth_square_sum','min_score','min_square_score']
     dict_prob = {}
     dict_prob = dict_prob.fromkeys(list_keys)
 
     opti_path = {}
     opti_path = dict([(key, []) for key in list_keys])
+
+    target_dict = defaultdict(dict)
 
     # binary variable to state a link is chosen or not
     for keys,prob in dict_prob.items():
@@ -147,11 +158,11 @@ async def opti_path(source:int = 0, target:int  = 10):
         elif keys == "min_banwidth_sum":
             prob += pulp.lpSum([g.edges[i,j]['ratio'] * var_dict[i, j] for i, j in g.edges]), "Sum bandwidth ratio"
         elif keys == "min_banwidth_square_sum":
-            prob += pulp.lpSum([g.edges[i,j]['ratio'] ** 20 * var_dict[i, j] for i, j in g.edges]), "Sum square bandwidth ratio"
+            prob += pulp.lpSum([g.edges[i,j]['ratio'] ** 2 * var_dict[i, j] for i, j in g.edges]), "Sum square bandwidth ratio"
         elif keys == "min_score":
             prob += pulp.lpSum([g.edges[i,j]['score'] * var_dict[i, j] for i, j in g.edges]), "Sum score"
-#        elif keys == "min_square_score":
-#            prob += pulp.lpSum([(g.edges[i,j]['score'] ** 20 * var_dict[i, j]) for i, j in g.edges]), "Sum square score"
+        elif keys == "min_square_score":
+            prob += pulp.lpSum([(g.edges[i,j]['score'] ** 2 * var_dict[i, j]) for i, j in g.edges]), "Sum square score"
             
         # constraints
         for node in g.nodes:
@@ -176,22 +187,43 @@ async def opti_path(source:int = 0, target:int  = 10):
                 print(link, end=" , ")
                 opti_path[keys].append(link)
 
-    for key,path in opti_path.items():
-        res = [[i for i, j in path], 
-        [j for i, j in path]] 
-        un_res = list()
-        for i in res[0]:
-            un_res.append(i)
-        for i in res[1]:
-            if i not in un_res:
-                un_res.append(i) 
+        solve_var = []
+        for i in prob.variables():
+            if i.varValue == 1:
+                var = str(i).split('(')
+                var = var[1].split('_')
+                var[0] = int(var[0])
+                var[1] = int(var[1].strip(')'))
+                solve_var.append(tuple(var))
+        
+        
+        target_dict[keys]['Number of nodes'] = len(solve_var)
+        target_dict[keys]['Sum of delay'] = sum([g.edges[i, j]['delay'] for i, j in solve_var])
+        target_dict[keys]['Ratio Sum'] = sum([g.edges[i, j]['ratio'] for i, j in solve_var])
+        target_dict[keys]['Squared Ratio Sum'] = sum([g.edges[i, j]['ratio']**2 for i, j in solve_var])
+        target_dict[keys]['Score Sum'] = sum([g.edges[i, j]['score'] for i, j in solve_var])
+        target_dict[keys]['Squared Score Sum'] = sum([g.edges[i, j]['score']**2 for i, j in solve_var])
+        
+        for link in g.edges:
+            if var_dict[link].value() == 1.0:
+                print(link, end=" ,")
+                opti_path[keys].append(link)
+                g.edges[link[0],link[1]]['color'] = (1,0,0,1) 
 
-    print(un_res)
-    sg = g.subgraph(un_res)
-    plt.close()
-    nx.draw(sg, with_labels=True)
-    plt.savefig("images/{}".format(keys))
-    plt.show()
+        colors = nx.get_edge_attributes(g,'color').values()
+
+        nx.draw(g, pos = node_pose, 
+            edge_color=colors, 
+            with_labels=True)
+
+        plt.savefig("images/{}.jpg".format(keys))
+        plt.close()
+
+        color = {}
+        for i, j in g.edges:
+            color[i, j] = color[j, i] = (0,0,0,0.5)
+
+        nx.set_edge_attributes(g, color, 'color')
 
     if pulp.LpStatus[prob.status] != 'Infeasible'  :
         file = codecs.open("static/path_view.html", "r")
