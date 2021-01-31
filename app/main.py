@@ -10,6 +10,7 @@ import numpy as np
 import matplotlib
 import matplotlib.pyplot as plt
 import pandas as pd 
+from collections import defaultdict
 
 import codecs
 import random
@@ -43,6 +44,7 @@ def image_nertworkx(nodes:int = 30, edges:int  = 3):
     nx.draw(g, with_labels=True)
     plt.savefig("images/original.jpg")
     plt.close()
+    
     dict_capa = {}
     for i, j in g.edges:
         dict_capa[i, j] = dict_capa[j, i] = round(random.uniform(1.0, 20.0), 0)
@@ -57,7 +59,7 @@ def image_nertworkx(nodes:int = 30, edges:int  = 3):
 
     dict_used = {}
     for i, j in g.edges:
-        dict_used[i, j] = dict_used[j, i] = min(round(random.uniform(0.0, 15.0), 0),dict_capa[i, j])
+        dict_used[i, j] = dict_used[j, i] = min(round(random.uniform(0.0, 10.0), 0),dict_capa[i, j])
     
     nx.set_edge_attributes(g, dict_used, 'used')
     
@@ -98,7 +100,7 @@ def image_nertworkx(nodes:int = 30, edges:int  = 3):
         if g.edges[link]['score'] != temp.at[str(link),'Score'] :
             g.edges[link]['score'] = temp.at[str(link),'Score'] 
 
-    for link in  g.edges:
+    for link in g.edges:
         if g.edges[link]['score'] != temp.at[str(link),'Score'] :
                 g.edges[link]['score'] = temp.at[str(link),'Score'] 
 
@@ -121,7 +123,7 @@ def image_endpoint():
 
 @app.get("/opti_image")
 def image_endpoint():
-    file_like = open("images/opti_image.jpg", mode="rb")
+    file_like = open("images/shortest_path.jpg", mode="rb")
     return StreamingResponse(file_like, media_type="image/jpg")
 
 @app.get('/generate_path/{source_target}',response_class=HTMLResponse)
@@ -182,43 +184,43 @@ async def opti_path(source:int = 0, target:int  = 10):
                 print(link, end=" , ")
                 opti_path[keys].append(link)
 
-    solve_var = []
-    for i in prob.variables():
-        if i.varValue == 1:
-            var = str(i).split('(')
-            var = var[1].split('_')
-            var[0] = int(var[0])
-            var[1] = int(var[1].strip(')'))
-            solve_var.append(tuple(var))
-    
-    
-    target_dict[keys]['Number of nodes'] = len(solve_var)
-    target_dict[keys]['Sum of delay'] = sum([g.edges[i, j]['delay'] for i, j in solve_var])
-    target_dict[keys]['Ratio Sum'] = sum([g.edges[i, j]['ratio'] for i, j in solve_var])
-    target_dict[keys]['Squared Ratio Sum'] = sum([g.edges[i, j]['ratio']**2 for i, j in solve_var])
-    target_dict[keys]['Score Sum'] = sum([g.edges[i, j]['score'] for i, j in solve_var])
-    target_dict[keys]['Squared Score Sum'] = sum([g.edges[i, j]['score']**2 for i, j in solve_var])
-    
-    for link in g.edges:
-        if var_dict[link].value() == 1.0:
-            print(link, end=" ,")
-            opti_path[keys].append(link)
-            g.edges[link[0],link[1]]['color'] = (1,0,0,1) 
+        solve_var = []
+        for i in prob.variables():
+            if i.varValue == 1:
+                var = str(i).split('(')
+                var = var[1].split('_')
+                var[0] = int(var[0])
+                var[1] = int(var[1].strip(')'))
+                solve_var.append(tuple(var))
+        
+        
+        target_dict[keys]['Number of nodes'] = len(solve_var)
+        target_dict[keys]['Sum of delay'] = sum([g.edges[i, j]['delay'] for i, j in solve_var])
+        target_dict[keys]['Ratio Sum'] = sum([g.edges[i, j]['ratio'] for i, j in solve_var])
+        target_dict[keys]['Squared Ratio Sum'] = sum([g.edges[i, j]['ratio']**2 for i, j in solve_var])
+        target_dict[keys]['Score Sum'] = sum([g.edges[i, j]['score'] for i, j in solve_var])
+        target_dict[keys]['Squared Score Sum'] = sum([g.edges[i, j]['score']**2 for i, j in solve_var])
+        
+        for link in g.edges:
+            if var_dict[link].value() == 1.0:
+                print(link, end=" ,")
+                opti_path[keys].append(link)
+                g.edges[link[0],link[1]]['color'] = (1,0,0,1) 
 
-    colors = nx.get_edge_attributes(g,'color').values()
+        colors = nx.get_edge_attributes(g,'color').values()
 
-    nx.draw(g, pos = node_pose, 
-        edge_color=colors, 
-        with_labels=True)
+        nx.draw(g, pos = node_pose, 
+            edge_color=colors, 
+            with_labels=True)
 
-    plt.savefig("images/{}.jpg".format(keys))
-    plt.show()
+        plt.savefig("images/{}.jpg".format(keys))
+        plt.close()
 
-    color = {}
-    for i, j in g.edges:
-        color[i, j] = color[j, i] = (0,0,0,0.5)
+        color = {}
+        for i, j in g.edges:
+            color[i, j] = color[j, i] = (0,0,0,0.5)
 
-    nx.set_edge_attributes(g, color, 'color')
+        nx.set_edge_attributes(g, color, 'color')
 
     if pulp.LpStatus[prob.status] != 'Infeasible'  :
         file = codecs.open("static/path_view.html", "r")
