@@ -11,6 +11,7 @@ import matplotlib
 import matplotlib.pyplot as plt
 import pandas as pd
 # from pandas.table.plotting import table
+import dataframe_image as dfi
 from pandas.plotting import table
 from collections import defaultdict
 
@@ -132,9 +133,8 @@ def image_endpoint(image_name:str = "shortest_path"):
 
 @app.get("/summary")
 def image_summary():
-    file_name = "images/summary_research.jpg"
-    file_name = open(file_name, mode="rb")
-    return StreamingResponse(file_name, media_type="image/jpg")
+    file_name = open("images/summary_research.png", mode="rb")
+    return StreamingResponse(file_name, media_type="image/png")
 
 
 @app.get('/generate_path/{source_target}',response_class=HTMLResponse)
@@ -213,11 +213,12 @@ async def opti_path(source:int = 0, target:int  = 10):
         target_dict[keys]['Squared Score Sum'] = sum([g.edges[i, j]['score']**2 for i, j in solve_var])
 
         DF_target = pd.DataFrame.from_dict(target_dict)
-        ax = DF_target.plot()
-
-        fig = ax.get_figure()
-        fig.savefig('images/summary_research.jpg')
-        plt.close()
+        # ax = DF_target.plot()
+        #
+        # fig = ax.get_figure()
+        # fig.savefig('images/summary_research.jpg')
+        # plt.close()
+        dfi.export(DF_target, 'images/summary_research.png')
 
         for link in g.edges:
             if var_dict[link].value() == 1.0:
