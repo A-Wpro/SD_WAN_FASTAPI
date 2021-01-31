@@ -133,8 +133,8 @@ def image_endpoint(image_name:str = "shortest_path"):
 
 @app.get("/summary")
 def image_summary():
-    file_name = open("images/summary_research.png", mode="rb")
-    return StreamingResponse(file_name, media_type="image/png")
+    file_name = open("images/summary_research.jpg", mode="rb")
+    return StreamingResponse(file_name, media_type="image/jpg")
 
 
 @app.get('/generate_path/{source_target}',response_class=HTMLResponse)
@@ -214,11 +214,11 @@ async def opti_path(source:int = 0, target:int  = 10):
 
         DF_target = pd.DataFrame.from_dict(target_dict)
         # ax = DF_target.plot()
-        #
+
         # fig = ax.get_figure()
         # fig.savefig('images/summary_research.jpg')
         # plt.close()
-        dfi.export(DF_target, 'images/summary_research.png')
+        # dfi.export(DF_target, 'images/summary_research.jpg')
 
         for link in g.edges:
             if var_dict[link].value() == 1.0:

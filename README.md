@@ -59,6 +59,26 @@ L’utilisateur n’a qu’a télécharger le projet GitHub, cree le container p
 
 : Le logiciel Docker est une technologie de conteneurisation qui permet la création et l’utilisation de conteneurs. Un conteneur est une unite de software permettant d’isoler une application d’un OS solvant la problématique du “ca ne marche pas sur mon ordinateur”. Lorsque nous créons une conteneur, une image de conteneur lui est attribue, cette image (contient les dependences, configuration, scripts etc ), lorsqu’elle est lancée, exécute l’applications et données contenues a l’intérieur d’elle meme grace au DockerFile. Le DockerFile est un Text-Based script d’instructions utilisé pour créer l’image du conteneur.
 
+## Ce que l'on a appris
+
+En plus d'un aperçu de l'utilité des APIs et leurs scalabilités verticales, nous avons appris a faire un choix entre plusieur techno. Car dans le monde de l'entreprise ce genre de choix est très commun. Nous avons aussi découvert les Dockers et la puissance que cela peut avoir en terme de micro-gestion. De plus le mélange des différents langage de programmation a aiguisé notre capacité à assosier les différentes techno. 
+
+## Ce que l'on vas réutiliser 
+
+Nous avons envie de dire que tout les heures passé sur ce projet nous ont appris quelque chose de nous allons utiliser/ Notamment le Docker et la librairie Fast API.
+
+## Nos difficultés
+
+Durant le projet nous avons eu quelques difficutés surtout notamment pour relier les ressources au site web et pouvoir afficher les
+ressources (en faisant appel aux liens).
+
+Nous avons echoué l'affichage d'un rendu des données des calculs à savoir faire passer un tableau au site web. Nous avons essayé
+de le convertir en DataFrame pandas puis de le convertir en image pour enfin le faire afficher a l'aide d'une balise <img>.
+On aurai pu aussi le convertir en json, utiliser un response json de l'API puis utiliser un script javascript pour faire apparaitre 
+le json sous forme de tableau.
+
+Enfin il aurai ete possible de relier l'api a une base de donnée qui enregistrerai les donnees pour qu'ensuite l'utilisateur fasse appelle 
+à cette base de donnée. Un ODM ou ORM aurai pu être utilisé dépendant de l'information que nous aurions voulu stocker.
 
 ## Pour commencer
 
