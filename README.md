@@ -80,6 +80,7 @@ le json sous forme de tableau.
 Enfin il aurai ete possible de relier l'api a une base de donnée qui enregistrerai les donnees pour qu'ensuite l'utilisateur fasse appelle 
 à cette base de donnée. Un ODM ou ORM aurai pu être utilisé dépendant de l'information que nous aurions voulu stocker.
 
+
 ## Pour commencer
 
 
