@@ -41,6 +41,13 @@ def image_nertworkx(nodes:int = 30, edges:int  = 3):
     for i in g.nodes():
         node_pose[i] = (random.uniform(1.0, 10.0),random.uniform(1.0, 10.0))
     
+    G = nx.DiGraph(g)
+    for i,j in g.edges:
+        if g.get_edge_data(j,i) == None:
+            G.add_edge(j,i)
+
+    g = G
+
     nx.draw(g,pos = node_pose, with_labels=True)
     plt.savefig("images/original.jpg")
     plt.close()
@@ -123,15 +130,78 @@ def image_endpoint():
 
 @app.get("/opti_image/{image_name}")
 def image_endpoint(image_name:str = "shortest_path"):
-    print(image_name)
     file_name = "images/%s.jpg" % image_name
-    print(file_name)
     file_like = open(file_name, mode="rb")
     return StreamingResponse(file_like, media_type="image/jpg")
 
+
+def monte_carlo(source, target, bdw):
+    g = nx.DiGraph(db[0])
+    #Initialisation of our matrice of variables
+    var_dict = {}
+    for (i, j) in g.edges:
+        var_dict[i, j] = 0
+
+    dict_res = defaultdict(dict)
+
+    for iter in range (5):
+        current_node = source
+        path = ""
+        cpt = 0
+        solve_var = []
+        j = source
+        
+        while j!= target and cpt < 50:
+            sub_list = []
+            for (i,j) in g.edges:
+                if i == current_node:
+                    sub_list.append((i,j))
+            
+            (i,j) = random.choices(sub_list)[0]
+
+            if (bdw + g.edges[i,j]['used']  <= g.edges[i,j]['capacity']):
+                path += "{}_".format(str((i,j)))
+                solve_var.append((i,j))
+                var_dict[i,j] = 1
+                current_node = j
+                cpt = cpt + 1
+        path = path[:-1]
+        for i in path.split("_"):
+            var = str(i).split('(')
+            var = var[1].split(',')
+            var[0] = int(var[0])
+            var[1] = int(var[1].strip(')'))
+            solve_var.append(tuple(var))
+
+        for link in g.edges:
+            if link in solve_var:
+                g.edges[link[0],link[1]]['color'] = (1,0,0,1) 
+        
+        colors = nx.get_edge_attributes(g,'color').values()
+
+        nx.draw(g, pos = node_pose, 
+            edge_color=colors, 
+            with_labels=True)
+
+        plt.savefig("images/monte_carlo_{}.jpg".format(iter))
+        plt.close()
+
+        dict_res[iter]['Number of nodes'] = len(solve_var)
+        dict_res[iter]['Sum of delay'] = sum([g.edges[i, j]['delay'] for i, j in solve_var])
+        dict_res[iter]['Ratio Sum'] = sum([g.edges[i, j]['ratio'] for i, j in solve_var])
+        dict_res[iter]['Squared Ratio Sum'] = sum([g.edges[i, j]['ratio']**2 for i, j in solve_var])
+        dict_res[iter]['Score Sum'] = sum([g.edges[i, j]['score'] for i, j in solve_var])
+        dict_res[iter]['Squared Score Sum'] = sum([g.edges[i, j]['score']**2 for i, j in solve_var])
+
+        color = {}
+        for i, j in g.edges:
+            color[i, j] = color[j, i] = (0,0,0,0.5)
+
+        nx.set_edge_attributes(g, color, 'color')
+
 @app.get('/generate_path/{source_target}',response_class=HTMLResponse)
 async def opti_path(source:int = 0, target:int  = 10):
-    g = nx.Graph(db[0])
+    g = nx.DiGraph(db[0])
     list_keys = ['shortest_path','min_delay','min_banwidth_sum','min_banwidth_square_sum','min_score','min_square_score']
     dict_prob = {}
     dict_prob = dict_prob.fromkeys(list_keys)
@@ -225,6 +295,7 @@ async def opti_path(source:int = 0, target:int  = 10):
 
         nx.set_edge_attributes(g, color, 'color')
 
+    monte_carlo(source, target, bdw)
     if pulp.LpStatus[prob.status] != 'Infeasible'  :
         file = codecs.open("static/path_view.html", "r")
         return file.read()
