@@ -4,7 +4,7 @@
 WIP : 
 remplir la GenerateOnosStruc
 
-chercher d'autre features
+chercher d'autres features
 
 ## Explication du projet
 
@@ -42,30 +42,28 @@ Voici un schema expliquant les interactions que l’utilisateur a avec notre API
 
 ![alt text](./image_read_me/schema_fonctionnement.png)
 
-Enfin nous avons choisi de dockersé notre projet afin que le projet soit utilisé par toute personne en dehors de l’OS qu’utilise leur PC.
+Enfin nous avons choisi de dockerisé notre projet afin que le projet soit utilisé par toute personne en dehors de l’OS qu’utilise leur PC.
 
-L’utilisateur n’a qu’a télécharger le projet GitHub, cree le container puis lancer la derniere image du container.
+L’utilisateur n’a qu’a télécharger le projet GitHub, cree le container puis lancer la dernière image du container.
 
 ## Explication des technologies
 
 **Fast API**
-: Fast API est un framework permettant de créer des APIs. Il existe d’autre frameworks pour python tels que Django et Flask. Fast API est inspiré de Flask mais apport aussi d’autres fonctionnalités tels que gérer des fonctions asynchrones, valider les entrees et sorties des données. Nous avons choisi d’utiliser Fast API permis les autres frameworks car il est simple d’utilisations et les options de réponses ( html ou streaming responses )nous permette de facilement organiser notre API.
+: Fast API est un framework permettant de créer des APIs. Il existe d’autre frameworks pour python tels que Django et Flask. Fast API est inspiré de Flask mais apporte aussi d’autres fonctionnalités tels que gérer des fonctions asynchrones, valider les entrées et sorties des données. Nous avons choisi d’utiliser Fast API parmi les autres frameworks car il est simple d’utilisations et les options de réponses ( html ou streaming responses ) nous permettent de facilement organiser notre API.
 
 **UVICORN**
-
-: Uvicorn est une implementation de sever ASGI (Asynchronous Server Gateway Interface ) permettant notre application de communiquer avec le serveur déployé. Contrairement à Flask qui utilise WSGI qui ne peut qu’exécuter nativement des taches synchrones, Uvicorn communique de manière asynchrone. Cela nous permet d’effectuer plusieurs taches en meme temps et donc évite le “freeze”
+: Uvicorn est une implementation de server ASGI (Asynchronous Server Gateway Interface ) permettant notre application de communiquer avec le serveur déployé. Contrairement à Flask qui utilise WSGI qui ne peut qu’exécuter nativement des tâches synchrones, Uvicorn communique de manière asynchrone. Cela nous permet d’effectuer plusieurs tâches en même temps et donc éviter le “freeze”
 
 **DOCKER**
-
-: Le logiciel Docker est une technologie de conteneurisation qui permet la création et l’utilisation de conteneurs. Un conteneur est une unite de software permettant d’isoler une application d’un OS solvant la problématique du “ca ne marche pas sur mon ordinateur”. Lorsque nous créons une conteneur, une image de conteneur lui est attribue, cette image (contient les dependences, configuration, scripts etc ), lorsqu’elle est lancée, exécute l’applications et données contenues a l’intérieur d’elle meme grace au DockerFile. Le DockerFile est un Text-Based script d’instructions utilisé pour créer l’image du conteneur.
+: Le logiciel Docker est une technologie de conteneurisation qui permet la création et l’utilisation de conteneurs. Un conteneur est une unite de software permettant d’isoler une application d’un OS solvant la problématique du “ça ne marche pas sur mon ordinateur”. Lorsque nous créons un conteneur, une image de conteneur lui est attribué, cette image (contient les dépendences, configuration, scripts etc ), lorsqu’elle est lancée, exécute l’application et les données contenues à l’intérieur d’elle même grâce au DockerFile. Le DockerFile est un Text-Based script d’instructions utilisé pour créer l’image du conteneur.
 
 ## Ce que l'on a appris
 
-En plus d'un apperçus de l'utiliter des APIs et leurs scalabilités verticales, nous avons appris a faire un choix entre plusieur techno. Car dans le monde de l'entreprise ce genre de choix. Nous avons aussi découvert les Dockers et la puissance que cela peut avoir en terme de micro gestion. De plus le melange des differentes langage de programation a aiguiser notre capacité a assosier les differentes techno. 
+En plus d'un aperçu de l'utilité des APIs et leurs scalabilités verticales, nous avons appris a faire un choix entre plusieur techno. Car dans le monde de l'entreprise ce genre de choix est très commun. Nous avons aussi découvert les Dockers et la puissance que cela peut avoir en terme de micro-gestion. De plus le mélange des différents langage de programmation a aiguisé notre capacité à assosier les différentes techno. 
 
 ## Ce que l'on vas réutiliser 
 
-Nous avons envie de dire que tout les heures passer sur ce projet nous ont appris quelque chose de nous allons utiliser/ Notamment le Docker et la librarie Fast API.
+Nous avons envie de dire que tout les heures passé sur ce projet nous ont appris quelque chose de nous allons utiliser/ Notamment le Docker et la librairie Fast API.
 
 
 ## Pour commencer
