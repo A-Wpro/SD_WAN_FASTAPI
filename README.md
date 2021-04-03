@@ -1,10 +1,6 @@
 # SD_WAN_FASTAPI
 #### API made on fastAPI (python) to start our API sharing our features form our SD wan project
 
-WIP : 
-remplir la GenerateOnosStruc
-
-chercher d'autre features
 
 ## Pour commencer
 
